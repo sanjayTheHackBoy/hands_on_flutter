@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
 
+const String content1 = 'You Love Jabed';
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -13,13 +15,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter App',
       theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
+          primarySwatch: Colors.green,
+          scaffoldBackgroundColor: Colors.amberAccent[100]),
       home: const SplashScreen(),
       routes: {
         '/home': (context) => const HomePage(),
         '/about': (context) => const AboutUsPage(),
-        '/jabed': (context) => const ContentPage('You Love Jabed'),
+        '/jabed': (context) => const ContentPage(content1),
         '/sanjay': (context) => const ContentPage('You Love Sanjay'),
         '/avik': (context) => const ContentPage('You Love Avik'),
         '/pankaj': (context) => const ContentPage('You Love Pankaj'),
@@ -60,15 +62,17 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green[300],
       appBar: AppBar(
         title: const Text('Home'),
-        backgroundColor: Colors.blue,
-        elevation: 200.0,
+        centerTitle: true,
+        backgroundColor: Colors.yellow[300],
+        elevation: 10.0,
         actions: [
           IconButton(
             icon: const Icon(Icons.home),
             onPressed: () {
-              Navigator.pushNamed(context, '/about');
+              Navigator.pushNamed(context, '/home');
             },
           ),
         ],
@@ -76,20 +80,22 @@ class HomePage extends StatelessWidget {
       drawer: const AppDrawer(),
       body: const Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                CustomButton('Jabed', Icons.favorite, '/jabed'),
-                CustomButton('Sanjay', Icons.favorite, '/sanjay'),
+                CustomButton('Jabed', Icons.account_circle_outlined, '/jabed'),
+                CustomButton(
+                    'Sanjay', Icons.account_circle_outlined, '/sanjay'),
               ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                CustomButton('Avik', Icons.favorite, '/avik'),
-                CustomButton('Pankaj', Icons.favorite, '/pankaj'),
+                CustomButton('Avik', Icons.account_circle_outlined, '/avik'),
+                CustomButton(
+                    'Pankaj', Icons.account_circle_outlined, '/pankaj'),
               ],
             ),
           ],
@@ -141,6 +147,7 @@ class ContentPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Content'),
+        backgroundColor: Colors.blue,
         actions: [
           IconButton(
             icon: const Icon(Icons.home),
@@ -167,25 +174,46 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(8.0),
-      child: ElevatedButton.icon(
+    return SizedBox(
+      width: 150.0,
+      height: 150.0,
+      child: ElevatedButton(
         onPressed: () {
           Navigator.pushNamed(context, route);
         },
-        label: Text(buttonText),
-        icon: Icon(iconData),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          elevation: 5,
-          shadowColor: Colors.blue,
+        style: ElevetedButton.styleFrom(
+            primary: Colors.green[300],
+            onPrimary: Colors.yellow[300],
+            elevation: 10.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            )),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Icon(
+              iconData,
+              size: 50.0,
+            ),
+            Text(
+              buttonText,
+              style: const TextStyle(
+                fontSize: 20.0,
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
+}
+
+class ElevetedButton {
+  static styleFrom(
+      {Color? primary,
+      Color? onPrimary,
+      required double elevation,
+      required RoundedRectangleBorder shape}) {}
 }
 
 class AppDrawer extends StatelessWidget {
